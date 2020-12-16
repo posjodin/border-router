@@ -1,0 +1,4 @@
+[submodule "mqttsn_publisher"]
+	path = mqttsn_publisher
+	url = https://github.com/posjodin/MQTTSN-Publisher.git
+	branch = main
