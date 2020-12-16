@@ -21,6 +21,8 @@
 #include "net/gnrc.h"
 #include "net/gnrc/rpl.h"
 
+#include "mqttsn_publisher.h"
+
 #define _IPV6_DEFAULT_PREFIX_LEN 64
 
 #define MAIN_QUEUE_SIZE     (8)
@@ -89,10 +91,13 @@ int main(void)
     /* start shell */
     puts("Border router running");
 
+#ifdef AUTO_INIT_MQTTSN
+    mqttsn_publisher_init();
+#endif /* AUTO_INIT_MQTTSN */
+
     puts("All up, running the shell now");
     char line_buf[SHELL_DEFAULT_BUFSIZE];
     shell_run(NULL, line_buf, SHELL_DEFAULT_BUFSIZE);
-
     /* should be never reached */
     return 0;
 }

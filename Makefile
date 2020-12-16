@@ -7,6 +7,16 @@ BOARD ?= avr-rss2
 # This has to be the absolute path to the RIOT base directory:
 RIOTBASE ?= $(CURDIR)/../RIOT-OS
 
+# Run MQTT-SN publisher
+EXTERNAL_MODULE_DIRS += $(CURDIR)/mqttsn_publisher
+USEMODULE += mqttsn_publisher
+INCLUDES += -I$(CURDIR)/mqttsn_publisher
+CFLAGS += -DAUTO_INIT_MQTTSN -DMQTTSN_PUBLISHER_THREAD
+# MQTT-SN gateway
+# lxc-ha IPv6 static ULA:
+CFLAGS += -DMQTTSN_GATEWAY_HOST=\"fd95:9bba:768f:0:216:3eff:fec6:99db\" 
+CFLAFS += DMQTTSN_GATEWAY_PORT=10000
+
 # Default to using ether for providing the uplink when not on native
 UPLINK ?= ether
 
@@ -38,12 +48,12 @@ USEMODULE += gnrc_sixlowpan_border_router_default
 USEMODULE += gnrc_dhcpv6_client_6lbr
 
 # Activate ICMPv6 error messages
-USEMODULE += gnrc_icmpv6_error
+# USEMODULE += gnrc_icmpv6_error
 # Additional networking modules that can be dropped if not needed
-USEMODULE += gnrc_icmpv6_echo
+# USEMODULE += gnrc_icmpv6_echo
 # Add also the shell, some shell commands
 USEMODULE += shell
-USEMODULE += shell_commands
+#USEMODULE += shell_commands
 USEMODULE += ps
 USEMODULE += netstats_l2
 USEMODULE += netstats_ipv6
