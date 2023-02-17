@@ -12,26 +12,30 @@ GW_ID ?= 847D
 # eth-gw2
 #GW_ID ?= 2A98
 
-# Run MQTT-SN publisher
-EXTERNAL_MODULE_DIRS += $(CURDIR)/mqttsn_publisher
-USEMODULE += mqttsn_publisher
-INCLUDES += -I$(CURDIR)/mqttsn_publisher
-# Enable publisher thread
-CFLAGS += -DMQTTSN_PUBLISHER_THREAD
-# Autolauch at startup
-CFLAGS += -DAUTO_INIT_MQTTSN
-# Use DNS to lookup host names
-USE_DNS ?= false
-# MQTT-SN gateway
-# lxc-ha IPv6 static ULA:
-#CFLAGS += -DMQTTSN_GATEWAY_HOST=\"fd95:9bba:768f:0:216:3eff:fec6:99db\" 
-#lab-pc.ssvl.kth.se
-#CFLAGS += -DMQTTSN_GATEWAY_HOST=\"::ffff:c010:7de8\"
-#CFLAGS += -DMQTTSN_GATEWAY_HOST=\"2001:6b0:32:13::232\"
-#CFLAGS += -DMQTTSN_GATEWAY_HOST=\"lab-pc.ssvl.kth.se\"
-#broker.ssvl.kth.se
-CFLAGS += -DMQTTSN_GATEWAY_HOST=\"2001:6b0:32:13::234\"
-CFLAFS += DMQTTSN_GATEWAY_PORT=10000
+# Use MQTTSN publisher?
+USE_MQTTSN_PUBLISHER ?= false
+
+ifeq (true,$(USE_MQTTSN_PUBLISHER))
+	EXTERNAL _MODULE_DIRS += $(CURDIR)/mqttsn_publisher
+	USEMODULE += mqttsn_publisher
+	INCLUDES += -I$(CURDIR)/mqttsn_publisher
+# 	Enable publisher thread
+	CFLAGS += -DMQTTSN_PUBLISHER_THREAD
+# 	Autolauch at startup
+	CFLAGS += -DAUTO_INIT_MQTTSN
+# 	Use DNS to lookup host names?
+	USE_DNS ?= false
+# 	MQTT-SN gateway
+# 	lxc-ha IPv6 static ULA:
+#	CFLAGS += -DMQTTSN_GATEWAY_HOST=\"fd95:9bba:768f:0:216:3eff:fec6:99db\"
+#	lab-pc.ssvl.kth.se
+#	CFLAGS += -DMQTTSN_GATEWAY_HOST=\"::ffff:c010:7de8\"
+#	CFLAGS += -DMQTTSN_GATEWAY_HOST=\"2001:6b0:32:13::232\"
+#	CFLAGS += -DMQTTSN_GATEWAY_HOST=\"lab-pc.ssvl.kth.se\"
+#	broker.ssvl.kth.se
+	CFLAGS += -DMQTTSN_GATEWAY_HOST=\"2001:6b0:32:13::234\"
+	CFLAFS += DMQTTSN_GATEWAY_PORT=10000
+endif
 
 # Default to using ether for providing the uplink when not on native
 UPLINK ?= ether

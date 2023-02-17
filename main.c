@@ -21,7 +21,9 @@
 #include "net/gnrc.h"
 #include "net/gnrc/rpl.h"
 
+#if defined(MODULE_MQTTSN_PUBLISHER)
 #include "mqttsn_publisher.h"
+#endif
 
 #define _IPV6_DEFAULT_PREFIX_LEN 64
 
@@ -91,7 +93,7 @@ int main(void)
     /* start shell */
     puts("Border router running");
 
-#ifdef AUTO_INIT_MQTTSN
+#if defined(MODULE_MQTTSN_PUBLISHER) && defined(AUTO_INIT_MQTTSN)
     mqttsn_publisher_init();
 #endif /* AUTO_INIT_MQTTSN */
 
